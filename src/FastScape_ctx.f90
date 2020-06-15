@@ -35,6 +35,14 @@ module FastScapeContext
   integer, dimension(:,:), allocatable :: mrec
   double precision, dimension(:,:), allocatable :: mwrec,mlrec
 
+  ! variables added by BG 
+  ! single flow stack and rec before and after rerouting pits
+  integer, dimension(:), allocatable :: stack0, ndon0, rec0 
+  ! donnors before and after rerouting pits
+  integer, dimension(:,:), allocatable :: don0 
+
+
+
   contains
 
   subroutine Init()
@@ -71,6 +79,9 @@ module FastScapeContext
     allocate (p_mfd_exp(nn))
     allocate (length(nn),a(nn),erate(nn),etot(nn),b(nn),Sedflux(nn),Fmix(nn),kf(nn),kd(nn))
     allocate (lake_depth(nn),hwater(nn),mrec(8,nn),mnrec(nn),mwrec(8,nn),mlrec(8,nn),mstack(nn))
+
+    allocate(rec0(nn),don0(8,nn),stack0(nn))
+
 
     h2(1:nx,1:ny) => h
     b2(1:nx,1:ny) => b
@@ -148,6 +159,10 @@ module FastScapeContext
     if (allocated(g)) deallocate(g)
     if (allocated(p_mfd_exp)) deallocate(p_mfd_exp)
     if (allocated(bounds_bc)) deallocate(bounds_bc)
+    if (allocated(rec0)) deallocate(rec0)
+    if (allocated(don0)) deallocate(don0)
+    if (allocated(stack0)) deallocate(stack0)
+
 
     return
 
